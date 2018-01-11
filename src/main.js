@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import firebase from 'firebase'
 import VueFire from 'vuefire'
+import '../node_modules/material-design-lite/material.min.css'
+import '../node_modules/material-design-lite/material.min.js'
 
 /* eslint-disable */
 var config = {
@@ -20,6 +22,7 @@ let firebaseApp = firebase.initializeApp(config);
 Vue.prototype.$firebase = firebaseApp.database()
 
 Vue.use(VueFire)
+Vue.use(firebase)
 Vue.config.productionTip = false
 
 new Vue({
