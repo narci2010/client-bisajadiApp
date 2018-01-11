@@ -11,6 +11,8 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.17.1",
+    "cors": "^2.8.4",
     "firebase": "^4.8.1",
     "firebase-functions": "^0.8.0",
     "vue": "^2.5.13",

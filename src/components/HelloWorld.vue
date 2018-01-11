@@ -4,12 +4,14 @@
       <input type="text" v-model="msg">
       <input type="submit" value="submit">
     </form>
+
+    <h1> {{ dataGcf }}</h1>
     
   </div>
 </template>
 
 <script>
-// import firebase from 'firebase'
+import axios from 'axios'
 const db = this.$firebase
 export default {
   name: 'HelloWorld',
@@ -20,12 +22,23 @@ export default {
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      dataGcf: null
     }
   },
   methods: {
     postData () {
       db.ref('test/' + 'jhvfyugcyg67576576yu').set({ msg: this.msg })
+    },
+    getGcf () {
+      axios.get('https://us-central1-bisajadi-bce8b.cloudfunctions.net/helloWorld')
+      .then(response => {
+        console.log(response.data)
+        this.dataGcf = response.data.kata
+      })
+      .catch(err => {
+        console.log(err)
+      })
     }
   }
 }
