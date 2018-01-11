@@ -22,7 +22,6 @@ let firebaseApp = firebase.initializeApp(config);
 Vue.prototype.$firebase = firebaseApp.database()
 
 Vue.use(VueFire)
-Vue.use(firebase)
 Vue.config.productionTip = false
 
 new Vue({

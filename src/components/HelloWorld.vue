@@ -1,25 +1,41 @@
 <template>
   <div>
-    <h1>
+    <div v-if="isActive">
+      <h1>
       {{ word.kata }}
-    </h1>
-    <img :src="word.image" alt="" style="width:300px; height: 200px;">
+      </h1>
+      <img :src="word.image" alt="" style="width:300px; height: 200px;">  
+
+      <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
+        <i class="material-icons" @click="getWord">add</i>
+      </button>
+    </div>
     
-      <img src="https://i.ytimg.com/vi/aqGGmyQZpoY/hqdefault.jpg" alt="">
-    <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
-  <i class="material-icons" @click="getWord">add</i>
-</button>
+      <!-- <img src="https://i.ytimg.com/vi/aqGGmyQZpoY/hqdefault.jpg" alt=""> -->
+    
+<div v-else>
+  {{ benarOrTidak }}
+  <form action="#" @submit.prevent="cekJawaban">
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <input class="mdl-textfield__input" type="text" id="sample3" v-model="text">
+    <label class="mdl-textfield__label" for="sample3">Jawaban Anda</label>
+  </div>
+</form>
+</div>
+
   </div>
 </template>
 
 <script>
 /* eslint-disable */
 import axios from 'axios'
-const db = this.$firebase
 export default {
   name: 'HelloWorld',
   data () {
     return {
+      isActive: '',
+      text: '',
+      benarOrTidak: '',
       word: '',
       index: '',
       history: [],
@@ -67,6 +83,13 @@ export default {
       ]
     }
   },
+  watch: {
+    isActive: function () {
+      if (this.$route.params.id === 'playerone') {
+        this.isActive = true
+      }
+    }
+  },
   methods: {
     getWord: function () {
       console.log('hello')
@@ -94,6 +117,20 @@ export default {
           return true
         }
       })
+    },
+    cekJawaban: function () {
+      if (this.text.toLowerCase() === this.jawaban[7].kata) {
+        console.log(this.text, this.jawaban[7].kata)
+        return this.benarOrTidak = true
+      } else {
+        console.log(this.text, this.jawaban[7].kata)
+        return this.benarOrTidak = false
+      }
+    }
+  },
+  created () {
+    if (this.$route.params.id === 'playerone') {
+      this.isActive = true
     }
   }
 }
