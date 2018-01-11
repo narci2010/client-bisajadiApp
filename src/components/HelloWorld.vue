@@ -1,11 +1,13 @@
 <template>
   <div>
     <div v-if="isActive">
-      <h1>
-      {{ word.kata }}
-      </h1>
-      <img :src="word.image" alt="" style="width:300px; height: 200px;">  
-
+      <div v-if="anArray">
+        <h1 >
+        {{ anArray[0].word }}
+        </h1>
+        <img :src="anArray[0].img" alt="" style="width:300px; height: 200px;">  
+      </div>
+      
       <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
         <i class="material-icons" @click="getWord">add</i>
       </button>
@@ -28,6 +30,7 @@
 
 <script>
 /* eslint-disable */
+import firebase from 'firebase'
 import axios from 'axios'
 export default {
   name: 'HelloWorld',
@@ -83,6 +86,12 @@ export default {
       ]
     }
   },
+  firebase () {
+    return {
+      anArray: firebase.database().ref('teams'),
+      score: firebase.database().ref('leaderboard/team_rocket')
+    }
+  },
   watch: {
     isActive: function () {
       if (this.$route.params.id === 'playerone') {
@@ -98,7 +107,10 @@ export default {
       if (this.history.length === this.jawaban.length) {
         this.history = []
       } else if (index) {
-        this.word = this.jawaban[index]
+        firebase.database().ref('teams/' + 'team_rocket').set({
+          word: this.jawaban[index].kata,
+          img: this.jawaban[index].image
+        })
         this.history.push(index)
       } else {
         return this.getWord()
@@ -109,21 +121,19 @@ export default {
       //   this.word = data.kata
       // })
     },
-    cekHistory: function (index) {
-      this.history.forEach(x => {
-        if (x === index) {
-          return false
-        } else {
-          return true
-        }
-      })
-    },
     cekJawaban: function () {
-      if (this.text.toLowerCase() === this.jawaban[7].kata) {
-        console.log(this.text, this.jawaban[7].kata)
+      if (this.text.toLowerCase() === this.anArray[0].word) {
+        console.log(this.text, this.anArray[0].word)
+        let score = Number(this.score[0]['.value'])
+        console.log(score + 'score')
+        score += 10
+        firebase.database().ref('leaderboard/team_rocket').set({
+          score: score
+        })
+        this.getWord()
         return this.benarOrTidak = true
       } else {
-        console.log(this.text, this.jawaban[7].kata)
+        console.log(this.text, this.anArray[0].word)
         return this.benarOrTidak = false
       }
     }

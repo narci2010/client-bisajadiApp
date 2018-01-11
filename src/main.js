@@ -10,14 +10,14 @@ import '../node_modules/material-design-lite/material.min.js'
 
 /* eslint-disable */
 var config = {
-  apiKey: "AIzaSyDz64jtEntSQOSJVtB6ljjhBX3JUq_EddI",
-  authDomain: "bisajadi-bce8b.firebaseapp.com",
-  databaseURL: "https://bisajadi-bce8b.firebaseio.com",
-  projectId: "bisajadi-bce8b",
-  storageBucket: "",
-  messagingSenderId: "465975858892"
+  apiKey: "AIzaSyA6tkCsALPbiLlw038YHJ0izByVMcNgwU8",
+  authDomain: "vue-project-1a9b9.firebaseapp.com",
+  databaseURL: "https://vue-project-1a9b9.firebaseio.com",
+  projectId: "vue-project-1a9b9",
+  storageBucket: "vue-project-1a9b9.appspot.com",
+  messagingSenderId: "889735417412"
 };
-let firebaseApp = firebase.initializeApp(config);
+let firebaseApp = firebase.initializeApp(config)
 
 Vue.prototype.$firebase = firebaseApp.database()
 
