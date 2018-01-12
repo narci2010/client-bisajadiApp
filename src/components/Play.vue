@@ -1,19 +1,15 @@
 <template>
-  
+  <div>
+    <h1>dflgjsdjgosdijg</h1>
+  </div>
 </template>
 
 <script>
-const db = this.$firebase
+
 export default {
-  firebase () {
-    return {
-      anArray: db.ref('rooms')
-    }
-  },
+  name: 'Play',
   data () {
-    return {
-      
-    }
+    return {}
   }
 }
 </script>
