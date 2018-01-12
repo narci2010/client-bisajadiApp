@@ -29,6 +29,8 @@
      <player-one-screen :roomId="1"/>
     </div>
 
+<LeaderBoard/>
+
   </div>
 </template>
 
@@ -36,6 +38,7 @@
 /* eslint-disable */
 
 import firebase from 'firebase'
+import LeaderBoard from '@/components/leaderBoard'
 import axios from 'axios'
 import PlayerOneScreen from './PlayerOneScreen'
 import PlayerTwoScreen from './PlayerTwoScreen'
@@ -43,7 +46,7 @@ import dummy from '@/assets/dummy'
 
 export default {
   name: 'HelloWorld',
-  components : {PlayerOneScreen, PlayerTwoScreen},
+  components : {PlayerOneScreen, PlayerTwoScreen, LeaderBoard},
   data () {
     return {
       isActive: '',
@@ -135,6 +138,9 @@ export default {
     if (this.$route.params.id === 'playerone') {
       this.isActive = true
     }
+    firebase.database().ref('leaderboard/team_rocket').set({
+      score: 0
+    })
   }
 }
 </script>
