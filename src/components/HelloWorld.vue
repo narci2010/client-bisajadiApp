@@ -1,8 +1,8 @@
 <template>
-  <div v-if="score && score.length > 0">
+  <div v-if="score && score.length > 0" style="padding: 10px;">
     <div v-if="isActive">
       <h2>Score: {{ score[0]['.value'] }}</h2>
-      <h1>Sisa Waktu: {{ timer }}</h1> 
+      <h3>Sisa Waktu: {{ timer }}</h3> 
       <player-two-screen :roomId="1"/>
       <div v-if="anArray">
         <h1 >
@@ -21,16 +21,10 @@
      <h1>
       {{ benarOrTidak }}</h1>
       <form action="#" @submit.prevent="cekJawaban">
-      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-        <input class="mdl-textfield__input" type="text" id="sample3" v-model="text">
-        <label class="mdl-textfield__label" for="sample3">Jawaban Anda</label>
-      </div>
+        <input type="text" v-model="text" style="zoom: 2; margin-bottom: 10px;">
     </form>
      <player-one-screen :roomId="1"/>
     </div>
-
-<LeaderBoard/>
-
   </div>
 </template>
 
@@ -38,7 +32,6 @@
 /* eslint-disable */
 
 import firebase from 'firebase'
-import LeaderBoard from '@/components/leaderBoard'
 import axios from 'axios'
 import PlayerOneScreen from './PlayerOneScreen'
 import PlayerTwoScreen from './PlayerTwoScreen'
@@ -46,7 +39,7 @@ import dummy from '@/assets/dummy'
 
 export default {
   name: 'HelloWorld',
-  components : {PlayerOneScreen, PlayerTwoScreen, LeaderBoard},
+  components : { PlayerOneScreen, PlayerTwoScreen },
   data () {
     return {
       isActive: '',
@@ -100,8 +93,7 @@ export default {
         this.history = []
       } else if (index) {
         firebase.database().ref('teams/' + 'team_rocket').set({
-          word: this.jawaban[index].kata,
-          img: this.jawaban[index].image
+          word: this.jawaban[index].kata
         })
         this.onplay = !this.onplay
         this.startTheGame()
