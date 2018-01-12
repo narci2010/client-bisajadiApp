@@ -1,22 +1,32 @@
 <template>
   <div>
-    <router-link :to="{ path: 'play/playerone', params: { team: 'jhon doe', player: 'azhari' }}">
-    <div class="demo-card-image mdl-card mdl-shadow--2dp" id="one">
-      <div class="mdl-card__title mdl-card--expand"></div>
-      <div class="mdl-card__actions">
-        <span class="demo-card-image__filename">Image.jpg</span>
-      </div>
-    </div>
-    </router-link>
+    <main class="mdl-layout__content">
+      <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--2-col"></div>
+        <div class="mdl-cell mdl-cell--6-col">
+          <router-link :to="{ path: 'play/playerone', params: { team: 'jhon doe', player: 'azhari' }}">
+            <div class="demo-card-image mdl-card mdl-shadow--2dp" id="one">
+              <div class="mdl-card__title mdl-card--expand"></div>
+              <div class="mdl-card__actions">
+                <span class="demo-card-image__filename">Image.jpg</span>
+              </div>
+            </div>
+            </router-link>
 
-    <router-link :to="{ path: 'play/playertwo', params: { team: 'foobar', player: 'fajar' }}">
-    <div class="demo-card-image mdl-card mdl-shadow--2dp" id="two">
-      <div class="mdl-card__title mdl-card--expand"></div>
-      <div class="mdl-card__actions">
-        <span class="demo-card-image__filename">Image.jpg</span>
+            <router-link :to="{ path: 'play/playertwo', params: { team: 'foobar', player: 'fajar' }}">
+            <div class="demo-card-image mdl-card mdl-shadow--2dp" id="two">
+              <div class="mdl-card__title mdl-card--expand"></div>
+              <div class="mdl-card__actions">
+                <span class="demo-card-image__filename">Image.jpg</span>
+              </div>
+            </div>
+            </router-link>
+        </div>
+        <div class="mdl-cell mdl-cell--2-col"></div>
       </div>
-    </div>
-    </router-link>
+      
+    </main>
+    
   </div>
 </template>
 
