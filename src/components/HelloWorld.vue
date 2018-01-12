@@ -1,6 +1,8 @@
 <template>
   <div>
     <div v-if="isActive">
+      <h2>{{ score[0]['.value'] }}</h2>
+     <h1>{{ timer }}</h1> 
       <div v-if="anArray">
         <h1 >
         {{ anArray[0].word }}
@@ -30,6 +32,7 @@
 
 <script>
 /* eslint-disable */
+
 import firebase from 'firebase'
 import axios from 'axios'
 export default {
@@ -37,7 +40,9 @@ export default {
   data () {
     return {
       isActive: '',
+      onplay: false,
       text: '',
+      timer: 10,
       benarOrTidak: '',
       word: '',
       index: '',
@@ -89,7 +94,8 @@ export default {
   firebase () {
     return {
       anArray: firebase.database().ref('teams'),
-      score: firebase.database().ref('leaderboard/team_rocket')
+      score: firebase.database().ref('leaderboard/team_rocket'),
+      play: firebase.database().ref('play/flag')
     }
   },
   watch: {
@@ -100,8 +106,25 @@ export default {
     }
   },
   methods: {
+    startTheGame: function () {
+      let vm = this
+      console.log('helasdasdlo')
+        setInterval( function () {
+         console.log(vm.timer)
+         if (vm.onplay) {
+           vm.timer--
+         }
+        if (vm.timer === 0) {
+          vm.onplay = false
+          vm.timer = 10
+          alert('game over')
+          
+        }
+      }, 1000)
+    },
     getWord: function () {
       console.log('hello')
+      this.benarOrTidak = false
       let index = Math.floor(Math.random() * (this.jawaban.length - this.history.length ))
       this.index = index
       if (this.history.length === this.jawaban.length) {
@@ -111,6 +134,8 @@ export default {
           word: this.jawaban[index].kata,
           img: this.jawaban[index].image
         })
+        this.onplay = !this.onplay
+        this.startTheGame()
         this.history.push(index)
       } else {
         return this.getWord()
@@ -134,6 +159,7 @@ export default {
         return this.benarOrTidak = true
       } else {
         console.log(this.text, this.anArray[0].word)
+
         return this.benarOrTidak = false
       }
     }
