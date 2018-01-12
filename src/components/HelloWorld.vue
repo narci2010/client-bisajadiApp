@@ -1,15 +1,15 @@
 <template>
-  <div>
+  <div v-if="score && score.length > 0">
     <div v-if="isActive">
-      <h2>{{ score[0]['.value'] }}</h2>
-     <h1>{{ timer }}</h1> 
+      <h2>Score: {{ score[0]['.value'] }}</h2>
+      <h1>Sisa Waktu: {{ timer }}</h1> 
+      <player-two-screen :roomId="1"/>
       <div v-if="anArray">
         <h1 >
-        {{ anArray[0].word }}
+        <!-- {{ anArray[0].word }} -->
         </h1>
-        <img :src="anArray[0].img" alt="" style="width:300px; height: 200px;">  
+        <!-- <img :src="anArray[0].img" alt="" style="width:300px; height: 200px;">   -->
       </div>
-      
       <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
         <i class="material-icons" @click="getWord">add</i>
       </button>
@@ -17,15 +17,17 @@
     
       <!-- <img src="https://i.ytimg.com/vi/aqGGmyQZpoY/hqdefault.jpg" alt=""> -->
     
-<div v-else>
-  {{ benarOrTidak }}
-  <form action="#" @submit.prevent="cekJawaban">
-  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <input class="mdl-textfield__input" type="text" id="sample3" v-model="text">
-    <label class="mdl-textfield__label" for="sample3">Jawaban Anda</label>
-  </div>
-</form>
-</div>
+    <div v-else style="padding: 20px;">
+     <h1>
+      {{ benarOrTidak }}</h1>
+      <form action="#" @submit.prevent="cekJawaban">
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="sample3" v-model="text">
+        <label class="mdl-textfield__label" for="sample3">Jawaban Anda</label>
+      </div>
+    </form>
+     <player-one-screen :roomId="1"/>
+    </div>
 
   </div>
 </template>
@@ -35,60 +37,24 @@
 
 import firebase from 'firebase'
 import axios from 'axios'
+import PlayerOneScreen from './PlayerOneScreen'
+import PlayerTwoScreen from './PlayerTwoScreen'
+import dummy from '@/assets/dummy'
+
 export default {
   name: 'HelloWorld',
+  components : {PlayerOneScreen, PlayerTwoScreen},
   data () {
     return {
       isActive: '',
       onplay: false,
       text: '',
-      timer: 10,
+      timer: 180,
       benarOrTidak: '',
       word: '',
       index: '',
       history: [],
-      jawaban: [
-        {
-          kata: "pisang",
-          image: "http://www.solusisehatku.com/wp-content/uploads/2015/03/Pisang-Berkhasiat-Untuk-Menjaga-Kesehatan-Kulit.png"
-        },
-        {
-          kata: "rendang",
-          image: "http://ibudanmama.com/wp-content/uploads/2014/08/rendang-daging-rusa.jpg"
-        },
-        {
-          kata: "bakso",
-          image: "https://mamikos.com/info/wp-content/uploads/2017/07/Resep-Cara-Membuat-Bakso-Daging-Sapi-Lezat-830x623.jpg"
-        },
-        {
-          kata: "sapu",
-          image: "http://tigaem.com/4520-large_default/sapu-nylon-ekonomis-eceran-distributor-resmi-sapu-nilon-scotch-brite-u-membersihkan-lantai-di-jual-dg-harga-murah.jpg"
-        },
-        {
-          kata: "mobil",
-          image: "https://s3-ap-southeast-1.amazonaws.com/mobilkamu/artikel/images/9-mobil-sport-murah-kurang-dari-1-milyar/mobil-sport-murah.jpg"
-        },
-        {
-          kata: "sepatu",
-          image: "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/medium//1045/nike_nike-wmns-air-zoom-pegasus-33-831356-001-sepatu-olaharaga_full02.jpg"
-        },
-        {
-          kata: "cumi",
-          image: "http://4.bp.blogspot.com/-063dQTBSxAw/VK3IK_VXP1I/AAAAAAAABMQ/5ChyyPA37kQ/s1600/Cara%2BMemasak%2BCumi%2BAgar%2BTidak%2BAlot.jpg"
-        },
-        {
-          kata: "afrika",
-          image: "http://www.hus-film.de/assets/Image/filme/Abenteuer_Afrika.jpg"
-        },
-        {
-          kata: "tentara",
-          image: "https://hello-pet.com/assets/uploads/2016/11/tentara-nasional-indonesia-angkatan-darat.jpg"
-        },
-        {
-          kata: "tukul",
-          image: "http://www.lihat.co.id/wp-content/uploads/2016/08/tukul-1.jpg"
-        }
-      ]
+      jawaban: dummy.jawaban
     }
   },
   firebase () {
@@ -116,7 +82,7 @@ export default {
          }
         if (vm.timer === 0) {
           vm.onplay = false
-          vm.timer = 10
+          vm.timer = 180
           alert('game over')
           
         }
@@ -155,6 +121,7 @@ export default {
         firebase.database().ref('leaderboard/team_rocket').set({
           score: score
         })
+        this.text = ''
         this.getWord()
         return this.benarOrTidak = true
       } else {
